@@ -1,33 +1,18 @@
 #ifndef SET_GET_CLASSIC_LIST_FUNC
 #define SET_GET_CLASSIC_LIST_FUNC
 
-// GET
+int GetData(struct ListNode* node);
 
-int GetCapacity(struct StructList* list);
+struct ListNode* GetNext(struct ListNode* node);
 
-int GetDataEl(struct StructList* list, int index);
-
-struct ListNode* GetNextEl(struct StructList* list, int index);
-
-struct ListNode* GetPrevEl(struct StructList* list, int index);
-
-struct ListNode* GetFree(struct StructList* list);
-
-struct ListNode* GetNodesEl(struct StructList* list, int index);
+struct ListNode* GetPrev(struct ListNode* node);
 
 // SET
 
-void SetCapacity(struct StructList* list, int value);
+void SetData(struct ListNode* node, int value);
 
-void SetDataEl(struct StructList* list, int index, int value);
+void SetNext(struct ListNode* node, struct ListNode* new_node);
 
-void SetNodesEl(struct StructList* list, int index, struct ListNode* node_ptr);
-
-void SetNextEl(struct StructList* list, int index, struct ListNode* node_ptr);
-
-void SetPrevEl(struct StructList* list, int index, struct ListNode* node_ptr);
-
-void SetFree(struct StructList* list, struct ListNode* node_ptr);
-
+void SetPrev(struct ListNode* node, struct ListNode* new_node);
 
 #endif

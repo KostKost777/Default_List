@@ -5,90 +5,47 @@
 
 // GET
 
-int GetCapacity(struct StructList* list)
+int GetData(struct ListNode* node)
 {
-    assert(list);
+    assert(node != NULL);
 
-    return list->capacity;
+    return node->data;
 }
 
-int GetDataEl(struct StructList* list, int index)
+struct ListNode* GetNext(struct ListNode* node)
 {
-    assert(list);
+    assert(node != NULL);
 
-    return list->nodes[index].data;
+    return node->next;
 }
 
-struct ListNode* GetNodesEl(struct StructList* list, int index)
+struct ListNode* GetPrev(struct ListNode* node)
 {
-    assert(list);
+    assert(node != NULL);
 
-    return &list->nodes[index];
-}
-
-struct ListNode* GetNextEl(struct StructList* list, int index)
-{
-    assert(list);
-
-    return list->nodes[index].next;
-}
-
-struct ListNode* GetPrevEl(struct StructList* list, int index)
-{
-    assert(list);
-
-    return list->nodes[index].prev;
-}
-
-struct ListNode* GetFree(struct StructList* list)
-{
-    assert(list);
-
-    return list->free;
+    return node->prev;
 }
 
 // SET
 
-void SetCapacity(struct StructList* list, int value)
+void SetData(struct ListNode* node, int value)
 {
-    assert(list);
+    assert(node!= NULL);
 
-    list->capacity = value;
+    node->data = value;
 }
 
-void SetDataEl(struct StructList* list, int index, int value)
+void SetNext(struct ListNode* node, struct ListNode* new_node)
 {
-    assert(list);
+    assert(node != NULL);
+    assert(new_node != NULL);
 
-    list->nodes[index].data = value;
+    node->next = new_node;
 }
 
-void SetNodesEl(struct StructList* list, int index, struct ListNode* node_ptr)
+void SetPrev(struct ListNode* node, struct ListNode* new_node)
 {
-    assert(list);
-    assert(node_ptr);
+    assert(node != NULL);
 
-    list->nodes[index] = *node_ptr;
+    node->prev = new_node;
 }
-
-void SetNextEl(struct StructList* list, int index, struct ListNode* node_ptr)
-{
-    assert(list);
-
-    list->nodes[index].next = node_ptr;
-}
-
-void SetPrevEl(struct StructList* list, int index, struct ListNode* node_ptr)
-{
-    assert(list);
-
-    list->nodes[index].prev = node_ptr;
-}
-
-void SetFree(struct StructList* list, struct ListNode* node_ptr)
-{
-    assert(list);
-
-    list->free = node_ptr;
-}
-

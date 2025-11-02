@@ -19,19 +19,33 @@ struct ListNode
     struct ListNode* next;
 };
 
-struct StructList
-{
-    int capacity;
-    struct ListNode* free;
-    struct ListNode* nodes;
-};
+ReturnStatus ListCtor(struct ListNode** node);
 
-void SetDefaultNodes(struct StructList* list);
+struct ListNode* InsertAfter(struct ListNode* node, int value);
 
-ReturnStatus ListCtor(struct StructList* list, int capacity);
+struct ListNode* InsertBefore(struct ListNode* node, int value);
 
-void ListDtor(struct StructList* list);
+void DeleteElement(struct ListNode* node);
 
+void ListDtor(struct ListNode* node_0);
+
+#define INSERT_AFTER(node, element, label)                        \
+    if ((out_index = InsertAfter(node, element,                          \
+                    __LINE__, __func__, __FILE__)) == -1) {      \
+        goto label;                                                \
+    }
+
+#define INSERT_BEFORE(node, element, label)                        \
+    if ((out_index = InsertBefore(node, element,                          \
+                    __LINE__, __func__, __FILE__)) == -1) {      \
+        goto label;                                                \
+    }
+
+#define DELETE_ELEMENT(node, label)                        \
+    if ((out_index = DeleteElement(node,                          \
+                    __LINE__, __func__, __FILE__)) == -1) {      \
+        goto label;                                                \
+    }
 
 
 

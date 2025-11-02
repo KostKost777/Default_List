@@ -3,56 +3,68 @@
 #include "classic_list_functions.h"
 #include "classic_list_set_get_func.h"
 
-ReturnStatus ListCtor(struct StructList* list, int capacity)
+ReturnStatus ListCtor(struct ListNode** node_0)
 {
-    assert(list != NULL);
 
-    SetCapacity(list, capacity);
+    *node_0 =(ListNode*)calloc(1, sizeof(struct ListNode));
 
-    list->nodes = (ListNode*)calloc(GetCapacity(list), sizeof(ListNode));
-
-    if (list->nodes == NULL) {
-        printf("Memory was not allocated");
+    if (node_0 == NULL){
+        printf("Not allocate memory\n");
         return error;
     }
 
-    SetDefaultNodes(list);
-
-    SetFree(list, GetNodesEl(list, 1));
+    SetNext(*node_0, *node_0);
+    SetPrev(*node_0, *node_0);
+    SetData(*node_0, PZN);
 
     return success;
-
 }
 
-void SetDefaultNodes(struct StructList* list)
+void ListDtor(struct ListNode* node_0)
 {
-    SetNextEl(list, 0, NULL);
-    SetPrevEl(list, 0, NULL);
-    SetDataEl(list, 0, CANARY);
+    assert(node_0);
 
-    for (int i = 1; i < GetCapacity(list); ++i) {
+    for (ListNode* i = GetNext(node_0); i != node_0; i = GetNext(i)) {
 
-        SetDataEl(list, i, PZN);
-
-        if (i < GetCapacity(list) - 1) {
-            SetNextEl(list, i, GetNodesEl(list, i + 1));
-        }
-
-        SetPrevEl(list, i, NULL);
-
+        //printf("PTR: %p  NEXT_PTR: %p\n", i, GetNext(i));
+        free(i);
     }
-
-    SetNextEl(list, GetCapacity(list) - 1, GetNodesEl(list, 0));
-
 }
 
-void ListDtor(struct StructList* list)
+struct ListNode* InsertAfter(struct ListNode* node, int value)
 {
-    assert(list);
+    assert(node != NULL);
 
-    free(list->nodes);
+    ListNode* new_node =(ListNode*)calloc(1, sizeof(struct ListNode));
 
-    list->nodes = NULL;
+    assert(new_node != NULL);
+
+    SetPrev(new_node, node);
+    SetNext(new_node, GetNext(node));
+
+    SetData(new_node, value);
+
+    SetPrev(GetNext(node), new_node);
+
+    SetNext(node, new_node);
+
+    return new_node;
+}
+
+struct ListNode* InsertBefore(struct ListNode* node, int value)
+{
+    assert(node != NULL);
+
+    return InsertAfter(GetPrev(node), value);
+}
+
+void DeleteElement(struct ListNode* node)
+{
+    assert(node != NULL);
+
+    SetNext(GetPrev(node), GetNext(node));
+    SetPrev(GetNext(node), GetPrev(node));
+
 }
 
 
