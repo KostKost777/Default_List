@@ -2,9 +2,12 @@
 
 #include "classic_list_functions.h"
 #include "classic_list_set_get_func.h"
+#include "classic_list_dump_func.h"
 
 int main()
 {
+    struct ListNode* ret_value = NULL;
+
     struct ListNode* node_0 = NULL;
 
     ListCtor(&node_0);
@@ -15,38 +18,13 @@ int main()
                                                       GetNext(node_0),
                                                       GetPrev(node_0));
 
-    struct ListNode* node_1 = InsertAfter(node_0, 12);
+    INSERT_AFTER(node_0, 12, exit_label);
 
-    struct ListNode* node_2 = InsertBefore(node_1, 10);
+    INSERT_BEFORE(ret_value, 10, exit_label);
 
-    struct ListNode* node_3 = InsertBefore(node_2, 8);
+    INSERT_BEFORE(ret_value, 8, exit_label);
 
-    struct ListNode* node_4 = InsertBefore(node_3, 5);
-
-    printf("0 PTR: %p  DATA: %d  NEXT: %p  PREV: %p\n\n", node_0,
-                                                      GetData(node_0),
-                                                      GetNext(node_0),
-                                                      GetPrev(node_0));
-
-    printf("1 PTR: %p  DATA: %d  NEXT: %p  PREV: %p\n\n", node_1,
-                                                      GetData(node_1),
-                                                      GetNext(node_1),
-                                                      GetPrev(node_1));
-
-    printf("2 PTR: %p  DATA: %d  NEXT: %p  PREV: %p\n\n", node_2,
-                                                      GetData(node_2),
-                                                      GetNext(node_2),
-                                                      GetPrev(node_2));
-
-    printf("3 PTR: %p  DATA: %d  NEXT: %p  PREV: %p\n\n", node_3,
-                                                      GetData(node_3),
-                                                      GetNext(node_3),
-                                                      GetPrev(node_3));
-
-    printf("4 PTR: %p  DATA: %d  NEXT: %p  PREV: %p\n\n", node_4,
-                                                      GetData(node_4),
-                                                      GetNext(node_4),
-                                                      GetPrev(node_4));
+    INSERT_BEFORE(ret_value, 5, exit_label);
 
     for (ListNode* i = GetNext(node_0); i != node_0; i = GetNext(i)) {
 
@@ -56,8 +34,17 @@ int main()
 
     printf("\n");
 
-    ListDtor(node_0);
-    printf("END");
-    return 0;
+    exit_label:
+
+        ListDtor(node_0);
+
+        if (ret_value == NULL) {
+
+            printf("END WITH ERROR\n");
+            return 1;
+        }
+
+        printf("END SUCCESS\n");
+        return 0;
 
 }

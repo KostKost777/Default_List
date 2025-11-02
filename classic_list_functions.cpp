@@ -2,6 +2,7 @@
 
 #include "classic_list_functions.h"
 #include "classic_list_set_get_func.h"
+#include "classic_list_dump_func.h"
 
 ReturnStatus ListCtor(struct ListNode** node_0)
 {
@@ -29,9 +30,11 @@ void ListDtor(struct ListNode* node_0)
         //printf("PTR: %p  NEXT_PTR: %p\n", i, GetNext(i));
         free(i);
     }
+
+    free(node_0);
 }
 
-struct ListNode* InsertAfter(struct ListNode* node, int value)
+struct ListNode* Insert(struct ListNode* node, int value)
 {
     assert(node != NULL);
 
@@ -51,20 +54,65 @@ struct ListNode* InsertAfter(struct ListNode* node, int value)
     return new_node;
 }
 
-struct ListNode* InsertBefore(struct ListNode* node, int value)
+struct ListNode* InsertAfter(struct ListNode* node, int value,
+                             int line, const char* func, const char* file)
 {
     assert(node != NULL);
 
-    return InsertAfter(GetPrev(node), value);
+    LIST_VERIFIER(node);
+
+    //PRINT_DUMP_LOG(list, message, ...);
+
+    struct ListNode* new_node = Insert(node, value);
+
+    LIST_VERIFIER(new_node);
+
+    //PRINT_DUMP_LOG(list, message, ...)
+
+    return new_node;
 }
 
-void DeleteElement(struct ListNode* node)
+struct ListNode* InsertBefore(struct ListNode* node, int value,
+                              int line, const char* func, const char* file)
 {
     assert(node != NULL);
+    assert(func != NULL);
+    assert(file != NULL);
+
+    LIST_VERIFIER(node);
+
+   // PRINT_DUMP_LOG(list, message, ...);
+
+    struct ListNode* new_node = Insert(GetPrev(node), value);
+
+    LIST_VERIFIER(new_node);
+
+    //PRINT_DUMP_LOG(list, message, ...)
+
+    return new_node;
+
+}
+
+struct ListNode* DeleteElement(struct ListNode* node,
+                               int line, const char* func, const char* file)
+{
+    assert(node != NULL);
+
+    LIST_VERIFIER(node);
+
+    //PRINT_DUMP_LOG(list, message, ...);
+
+    struct ListNode* ret_val = GetPrev(node);
 
     SetNext(GetPrev(node), GetNext(node));
     SetPrev(GetNext(node), GetPrev(node));
 
+    LIST_VERIFIER(node);
+
+    free(node);
+    node = NULL;
+
+    return ret_val;
 }
 
 

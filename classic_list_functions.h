@@ -19,31 +19,36 @@ struct ListNode
     struct ListNode* next;
 };
 
-ReturnStatus ListCtor(struct ListNode** node);
+ReturnStatus ListCtor(struct ListNode** node_0);
 
-struct ListNode* InsertAfter(struct ListNode* node, int value);
+struct ListNode* InsertAfter(struct ListNode* node, int value,
+                             int line, const char* func,const char* file);
 
-struct ListNode* InsertBefore(struct ListNode* node, int value);
+struct ListNode* InsertBefore(struct ListNode* node, int value,
+                              int line, const char* func,const char* file);
 
-void DeleteElement(struct ListNode* node);
+struct ListNode* DeleteElement(struct ListNode* node,
+                               int line, const char* func, const char* file);
 
 void ListDtor(struct ListNode* node_0);
 
+struct ListNode* Insert(struct ListNode*, int value);
+
 #define INSERT_AFTER(node, element, label)                        \
-    if ((out_index = InsertAfter(node, element,                          \
-                    __LINE__, __func__, __FILE__)) == -1) {      \
+    if ((ret_value = InsertAfter(node, element,                          \
+                    __LINE__, __func__, __FILE__)) == NULL) {      \
         goto label;                                                \
     }
 
 #define INSERT_BEFORE(node, element, label)                        \
-    if ((out_index = InsertBefore(node, element,                          \
-                    __LINE__, __func__, __FILE__)) == -1) {      \
+    if ((ret_value = InsertBefore(node, element,                          \
+                    __LINE__, __func__, __FILE__)) == NULL) {      \
         goto label;                                                \
     }
 
 #define DELETE_ELEMENT(node, label)                        \
-    if ((out_index = DeleteElement(node,                          \
-                    __LINE__, __func__, __FILE__)) == -1) {      \
+    if ((ret_value = DeleteElement(node,                          \
+                    __LINE__, __func__, __FILE__)) == NULL) {      \
         goto label;                                                \
     }
 
