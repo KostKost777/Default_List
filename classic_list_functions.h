@@ -1,15 +1,22 @@
 #ifndef CLASSIC_LIST_FUNC
 #define CLASSIC_LIST_FUNC
 
-const int PZN = 228;
-
 const int CANARY= 999;
+
+const int MAX_SIZE = 10E6;
 
 enum ReturnStatus
 {
     success = 0,
     error = -1,
     fatal_error = -2,
+};
+
+struct List
+{
+    int num_of_el;
+    int err_code;
+    struct ListNode* node_0;
 };
 
 struct ListNode
@@ -19,35 +26,41 @@ struct ListNode
     struct ListNode* next;
 };
 
-ReturnStatus ListCtor(struct ListNode** node_0);
+ReturnStatus ListCtor(struct List* list);
 
-struct ListNode* InsertAfter(struct ListNode* node, int value,
-                             int line, const char* func,const char* file);
+enum ReturnStatus OpenLogFile();
 
-struct ListNode* InsertBefore(struct ListNode* node, int value,
-                              int line, const char* func,const char* file);
+void CloseLogFile();
 
-struct ListNode* DeleteElement(struct ListNode* node,
+struct ListNode* InsertAfter(struct List* list, struct ListNode* node,
+                             int value,
+                             int line, const char* func, const char* file);
+
+struct ListNode* InsertBefore(struct List* list, struct ListNode* node,
+                              int value,
+                              int line, const char* func, const char* file);
+
+struct ListNode* DeleteElement(struct List* list, struct ListNode* node,
                                int line, const char* func, const char* file);
 
-void ListDtor(struct ListNode* node_0);
+void ListDtor(struct List* list);
 
-struct ListNode* Insert(struct ListNode*, int value);
+struct ListNode* Insert(struct List* list, struct ListNode* node, int value);
 
-#define INSERT_AFTER(node, element, label)                        \
-    if ((ret_value = InsertAfter(node, element,                          \
+#define INSERT_AFTER(list, node, element, label)                        \
+    if ((ret_value = InsertAfter(list, node, element,                          \
                     __LINE__, __func__, __FILE__)) == NULL) {      \
         goto label;                                                \
     }
 
-#define INSERT_BEFORE(node, element, label)                        \
-    if ((ret_value = InsertBefore(node, element,                          \
+#define INSERT_BEFORE(list, node, element, label)                        \
+    if ((ret_value = InsertBefore(list, node, element,                          \
                     __LINE__, __func__, __FILE__)) == NULL) {      \
         goto label;                                                \
     }
 
-#define DELETE_ELEMENT(node, label)                        \
-    if ((ret_value = DeleteElement(node,                          \
+#define DELETE_ELEMENT(list, node, label)                        \
+    if ((ret_value = DeleteElement(list, node,                          \
                     __LINE__, __func__, __FILE__)) == NULL) {      \
         goto label;                                                \
     }

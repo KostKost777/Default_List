@@ -6,27 +6,37 @@
 
 int main()
 {
+    atexit(CloseLogFile);
+
     struct ListNode* ret_value = NULL;
 
-    struct ListNode* node_0 = NULL;
+    struct List list = {};
 
-    ListCtor(&node_0);
+    if (OpenLogFile())
+        goto exit_label;
+
+    if (ListCtor(&list))
+        goto exit_label;
 
 
-    printf("0 PTR: %p  DATA: %d  NEXT: %p  PREV: %p\n\n", node_0,
-                                                      GetData(node_0),
-                                                      GetNext(node_0),
-                                                      GetPrev(node_0));
+    printf("0 PTR: %p  DATA: %d  NEXT: %p  PREV: %p\n\n", GetNode_0(&list),
+                                                      GetData(GetNode_0(&list)),
+                                                      GetNext(GetNode_0(&list)),
+                                                      GetPrev(GetNode_0(&list)));
 
-    INSERT_AFTER(node_0, 12, exit_label);
+    INSERT_AFTER(&list, GetNode_0(&list), 12, exit_label);
 
-    INSERT_BEFORE(ret_value, 10, exit_label);
+    INSERT_BEFORE(&list, ret_value, 10, exit_label);
 
-    INSERT_BEFORE(ret_value, 8, exit_label);
+    ret_value->next = NULL;
 
-    INSERT_BEFORE(ret_value, 5, exit_label);
+    INSERT_BEFORE(&list, ret_value, 8, exit_label);
 
-    for (ListNode* i = GetNext(node_0); i != node_0; i = GetNext(i)) {
+    INSERT_BEFORE(&list, ret_value, 5, exit_label);
+
+    DELETE_ELEMENT(&list, ret_value, exit_label);
+
+    for (ListNode* i = GetNext(GetNode_0(&list)); i != GetNode_0(&list); i = GetNext(i)) {
 
         printf("DATA: %d\n", GetData(i));
 
@@ -36,7 +46,7 @@ int main()
 
     exit_label:
 
-        ListDtor(node_0);
+        ListDtor(&list);
 
         if (ret_value == NULL) {
 

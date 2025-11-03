@@ -26,6 +26,43 @@ struct ListNode* GetPrev(struct ListNode* node)
     return node->prev;
 }
 
+struct ListNode* GetNode_0(struct List* list)
+{
+    assert(list != NULL);
+
+    return list->node_0;
+}
+
+int GetNumOfEl(struct List* list)
+{
+    assert(list != NULL);
+
+    return list->num_of_el;
+}
+
+int GetErrCode(struct List* list)
+{
+    assert(list != NULL);
+
+    return list->err_code;
+}
+
+struct ListNode* GetHead(struct List* list)
+{
+    assert(list != NULL);
+    assert(list->node_0 != NULL);
+
+    return GetNext(list->node_0);
+}
+
+struct ListNode* GetTail(struct List* list)
+{
+    assert(list != NULL);
+    assert(list->node_0 != NULL);
+
+    return GetPrev(list->node_0);
+}
+
 // SET
 
 void SetData(struct ListNode* node, int value)
@@ -48,4 +85,11 @@ void SetPrev(struct ListNode* node, struct ListNode* new_node)
     assert(node != NULL);
 
     node->prev = new_node;
+}
+
+void SetNumOfEl(struct List* list, int value)
+{
+    assert(list != NULL);
+
+    list->num_of_el = value;
 }
